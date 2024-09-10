@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\recepies;
 use Illuminate\Http\Request;
 
-class RecepiesController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +33,7 @@ class RecepiesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(recepies $recepies)
+    public function show(string $id)
     {
         //
     }
@@ -42,7 +41,7 @@ class RecepiesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(recepies $recepies)
+    public function edit(string $id)
     {
         //
     }
@@ -50,7 +49,7 @@ class RecepiesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, recepies $recepies)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -58,7 +57,7 @@ class RecepiesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(recepies $recepies)
+    public function destroy(string $id)
     {
         //
     }

@@ -6,14 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up()
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('shopping_list', function (Blueprint $table) {
             $table->id(); // Primärschlüssel
-            $table->string('name'); // Name des Produkts
-            $table->unsignedBigInteger('unit_id'); // Fremdschlüssel zu units
-            $table->string('image')->nullable(); // Bild des Produkts, optional
-            $table->text('description')->nullable(); // Beschreibung des Produkts, optional
+            $table->unsignedBigInteger('user_id'); // Verknüpfung zu Benutzern
+            $table->unsignedBigInteger('product_id'); // Verknüpfung zu Produkten
+            $table->float('quantity'); // Menge des Produkts
             $table->timestamps(); // Erstellt created_at und updated_at
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('shopping_list');
     }
 };
