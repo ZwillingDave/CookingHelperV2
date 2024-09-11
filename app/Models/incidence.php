@@ -18,7 +18,7 @@ class Incidence extends Model
     // Beziehung: Eine Incidence gehört zu einem Produkt
     public function product()
     {
-        return $this->belongsTo(Products::class);
+        return $this->belongsTo(Product::class);
     }
 
     // Beziehung: Eine Incidence hat eine Mengeneinheit
