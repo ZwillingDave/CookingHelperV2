@@ -3,6 +3,7 @@
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductsController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,9 +23,8 @@ route::get('/user', function () {
     return view('user');
 })->middleware(['auth'])->name('user');
 
-route::get('/products', function () {
-    return view('products');
-})->middleware(['auth',])->name('products');
+Route::resource('products', ProductsController::class)->only(['index'])->middleware(['auth','verified']);
+
 
 route::get('/recepies/{id}', [RecipeController::class, 'show'])->name('recepies.show');
 
