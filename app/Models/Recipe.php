@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class recipe extends Model
+class Recipe extends Model
 {
     use HasFactory;
 
@@ -13,7 +13,7 @@ class recipe extends Model
      protected $fillable = ['description', 'instruction'];
 
      // Beziehung: Ein Rezept kann viele Incidences (Zutaten) haben
-     public function incidences()
+     public function ingredients()
      {
          return $this->hasMany(Ingredient::class);
      }

@@ -12,7 +12,7 @@ class Unit extends Model
     // Beziehung: Eine Mengeneinheit kann zu mehreren Produkten gehören
     public function products()
     {
-        return $this->hasMany(Products::class);
+        return $this->hasMany(Product::class);
     }
 
     // Beziehung: Eine Mengeneinheit kann in vielen Lagerbeständen verwendet werden
@@ -30,6 +30,6 @@ class Unit extends Model
     // Beziehung: Eine Mengeneinheit kann in vielen Rezeptzutaten verwendet werden
     public function incidences()
     {
-        return $this->hasMany(Incidence::class);
+        return $this->hasMany(Ingredient::class);
     }
 }

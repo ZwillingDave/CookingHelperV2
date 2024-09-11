@@ -11,7 +11,7 @@ class RecipeController extends Controller
     public function show($id)
     {
        // Hole das Rezept mit der ID und seine Zutaten (Incidences)
-       $recipe = Recipe::with('incidences.product.unit')->findOrFail($id);
+       $recipe = Recipe::with('ingredients.product.unit')->findOrFail($id);
 
        // Übergib das Rezept und die Zutaten an die View
        return view('recipes.show', compact('recipe')); 
