@@ -13,7 +13,7 @@ class CreateIncidencesTable extends Migration
      */
     public function up()
 {
-    Schema::create('incidences', function (Blueprint $table) {
+    Schema::create('ingredients', function (Blueprint $table) {
         $table->id(); // Primärschlüssel
         $table->unsignedBigInteger('recipe_id'); // Verknüpfung zu Rezepten
         $table->unsignedBigInteger('product_id'); // Verknüpfung zu Produkten
@@ -31,6 +31,6 @@ class CreateIncidencesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('incidences');
+        Schema::dropIfExists('ingredients');
     }
 }

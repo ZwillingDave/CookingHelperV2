@@ -29,6 +29,6 @@ class Product extends Model
     // Ein Produkt kann in mehreren Rezepten vorkommen
     public function incidences()
     {
-        return $this->hasMany(Incidence::class);
+        return $this->hasMany(Ingredient::class);
     }
 }

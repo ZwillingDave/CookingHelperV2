@@ -15,6 +15,6 @@ class recipe extends Model
      // Beziehung: Ein Rezept kann viele Incidences (Zutaten) haben
      public function incidences()
      {
-         return $this->hasMany(Incidence::class);
+         return $this->hasMany(Ingredient::class);
      }
 }
