@@ -15,7 +15,8 @@ class CreateRecipesTable extends Migration
 {
     Schema::create('recipes', function (Blueprint $table) {
         $table->id(); // Primärschlüssel
-        $table->text('description'); // Beschreibung des Rezepts
+        $table->string('name');
+        $table->text('description')->nullable(); // Beschreibung des Rezepts
         $table->text('instruction'); // Zubereitungshinweise
         $table->timestamps(); // Erstellt created_at und updated_at
     });
