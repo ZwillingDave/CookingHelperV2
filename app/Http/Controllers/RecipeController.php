@@ -11,7 +11,7 @@ class RecipeController extends Controller
     public function index()
     {
         return view('recipes.index', [
-            'recipes' => Recipe::with('unit')->latest()->get(),
+            'recipes' => Recipe::with('ingredients')->get(),
         ]);
     }
 
