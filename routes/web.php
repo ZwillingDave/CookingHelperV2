@@ -28,7 +28,7 @@ Route::resource('products', ProductController::class)->only(['index'])->middlewa
 
 Route::resource('recipes', RecipeController::class)->only(['index'])->middleware(['auth','verified']);
 
-Route::resource('shoppinglists', ShoppingListController::class)->only(['index'])->middleware(['auth','verified']);
+Route::resource('shoppinglists', ShoppingListController::class)->only(['index', 'show'])->middleware(['auth','verified']);
 
 
 route::get('/recepies/{id}', [RecipeController::class, 'show'])->name('recepies.show');

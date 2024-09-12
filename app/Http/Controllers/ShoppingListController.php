@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use App\Models\ShoppingList;
 use Illuminate\Http\Request;
+use App\Models\ShoppingListItem;
 
 
 class ShoppingListController extends Controller
@@ -38,15 +38,19 @@ class ShoppingListController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show(ShoppingList $shoppingList)
     {
-        //
+        
+        return view('shoppinglists.show', [
+            'shoppinglistItems' => ShoppingListItem::with('shoppingList')->get(),
+            'shoppinglist' => ShoppingList::with('user')->get(), // TODO wird nicht angezeigt
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product)
+    public function edit(ShoppingList $shoppingList)
     {
         //
     }
@@ -54,7 +58,7 @@ class ShoppingListController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, ShoppingList $shoppingList)
     {
         //
     }
@@ -62,7 +66,7 @@ class ShoppingListController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(ShoppingList $shoppingList)
     {
         //
     }

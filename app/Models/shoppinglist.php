@@ -8,7 +8,7 @@ class ShoppingList extends Model
 {
 
     public function shoppingListItems(){
-        return $this->hasMany(ShoppingListItems::class);
+        return $this->hasMany(ShoppingListItem::class);
     }
 
     public function user()

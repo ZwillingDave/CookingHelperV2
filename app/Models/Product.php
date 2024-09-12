@@ -23,7 +23,7 @@ class Product extends Model
     // Ein Produkt kann auf einer Einkaufsliste stehen
     public function shoppingListItems()
     {
-        return $this->hasMany(ShoppingListItems::class);
+        return $this->hasMany(ShoppingListItem::class);
     }
 
     // Ein Produkt kann in mehreren Rezepten vorkommen

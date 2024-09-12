@@ -1,22 +1,20 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Shoppinglists') }}
+            {{ __('Shoppinglist from') }}
         </h2>
     </x-slot>
 
     <div class="py-2">
-        @foreach ($shoppinglists as $shoppinglist)
-        @if ($shoppinglist->user_id == Auth::user()->id)
-        <x-dropdown-link :href="route('shoppinglists.show', $shoppinglist->id)">
+        @foreach ($shoppinglistItems as $shoppinglistItem)
+        @if ($shoppinglistItem->shopping_list_id == $shoppinglist->id)
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-2">         
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    {{ __('Shoppinglist from ' . $shoppinglist->created_at->format('d.m.Y')) }}
+                    {{ __($shoppinglistItem->name) }}
                 </div>
             </div>
         </div>
-        </x-dropdown-link>
         @endif
         @endforeach
     </div>

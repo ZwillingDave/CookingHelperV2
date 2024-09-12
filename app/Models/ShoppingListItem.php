@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ShoppingListItems extends Model
+class ShoppingListItem extends Model
 {
     public function product()
     {
