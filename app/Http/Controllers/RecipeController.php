@@ -8,12 +8,58 @@ use Illuminate\Http\Request;
 class RecipeController extends Controller
 {
     // Methode, um ein Rezept und seine Zutaten anzuzeigen
-    public function show($id)
+    public function index()
     {
-       // Hole das Rezept mit der ID und seine Zutaten (Incidences)
-       $recipe = Recipe::with('ingredients.product.unit')->findOrFail($id);
+        return view('recipes.index', [
+            'recipes' => Recipe::with('unit')->latest()->get(),
+        ]);
+    }
 
-       // Übergib das Rezept und die Zutaten an die View
-       return view('recipes.show', compact('recipe')); 
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Recipe $recipe)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Recipe $recipe)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Recipe $recipe)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Recipe $recipe)
+    {
+        //
     }
 }
