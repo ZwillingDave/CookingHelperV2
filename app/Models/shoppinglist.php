@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ShoppingList extends Model
 {
-    public function product()
-    {
-        return $this->belongsTo(Product::class);
+
+    public function shoppingListItems(){
+        return $this->hasMany(ShoppingListItems::class);
     }
 
     public function user()
@@ -16,8 +16,5 @@ class ShoppingList extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function unit()
-    {
-        return $this->belongsTo(Unit::class);
-    }
+   
 }

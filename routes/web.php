@@ -4,6 +4,7 @@ use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ShoppingListController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,6 +27,8 @@ route::get('/user', function () {
 Route::resource('products', ProductController::class)->only(['index'])->middleware(['auth','verified']);
 
 Route::resource('recipes', RecipeController::class)->only(['index'])->middleware(['auth','verified']);
+
+Route::resource('shoppinglists', ShoppingListController::class)->only(['index'])->middleware(['auth','verified']);
 
 
 route::get('/recepies/{id}', [RecipeController::class, 'show'])->name('recepies.show');
