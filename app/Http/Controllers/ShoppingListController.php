@@ -38,12 +38,13 @@ class ShoppingListController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ShoppingList $shoppingList)
+    public function show($id)
     {
         
+        
         return view('shoppinglists.show', [
+            'id' => $id,
             'shoppinglistItems' => ShoppingListItem::with('shoppingList')->get(),
-            'shoppinglist' => ShoppingList::with('user')->get(), // TODO wird nicht angezeigt
         ]);
     }
 
@@ -70,4 +71,5 @@ class ShoppingListController extends Controller
     {
         //
     }
+
 }
