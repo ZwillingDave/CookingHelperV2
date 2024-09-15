@@ -43,6 +43,7 @@ class ShoppingListController extends Controller
         
         
         return view('shoppinglists.show', [
+            'shoppinglist' => ShoppingList::with('user')->find($id),
             'id' => $id,
             'shoppinglistItems' => ShoppingListItem::with('shoppingList')->get(),
         ]);

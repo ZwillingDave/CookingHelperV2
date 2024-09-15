@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Shoppinglist from') }}
+            {{ __('Shoppinglist from ' . $shoppinglist->created_at->format('d.m.Y')) }}
         </h2>
     </x-slot>
 
