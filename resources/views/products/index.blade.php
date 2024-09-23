@@ -23,10 +23,10 @@
             
             <div class="flex mt-4">
                 <div class="flex-1 text-center">                
-                    <x-primary-button class="flex-1">{{ __("Add to ShoppingList") }}</x-primary-button>
+                    <x-primary-button name="add_to_shoppinglist" class="flex-1">{{ __("Add to ShoppingList") }}</x-primary-button>
                 </div>
                 <div class="flex-1 text-center">
-                    <x-primary-button class="flex-1">{{ __("Add to StorageList") }}</x-primary-button>
+                    <x-primary-button name="add_to_storage" class="flex-1">{{ __("Add to StorageList") }}</x-primary-button>
                 </div>
             </div>
         </form>
