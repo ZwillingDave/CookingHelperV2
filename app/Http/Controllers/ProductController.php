@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Models\Unit;
 
 
 class ProductController extends Controller
@@ -18,6 +19,16 @@ class ProductController extends Controller
         ]);
     }
 
+
+    public function reviewSelection(Request $request){
+        $selectedProductIds = $request->input('products', []);
+        $action = $request->input('action');
+        $products = Product::whereIn('id', $selectedProductIds)->get();
+        $units = Unit::all();
+        return view('products.edit', compact('products', 'action', 'units'));
+    }
+
+    // todo addorupdate implementation
     /**
      * Show the form for creating a new resource.
      */

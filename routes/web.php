@@ -24,7 +24,9 @@ route::get('/user', function () {
     return view('user');
 })->middleware(['auth'])->name('user');
 
-Route::resource('products', ProductController::class)->only(['index'])->middleware(['auth','verified']);
+Route::resource('products', ProductController::class)->only(['index', 'review', 'edit'])->middleware(['auth','verified']);
+Route::post('/products/review', [ProductController::class, 'reviewSelection'])->name('products.review')->middleware(['auth','verified']);
+// Route::post('/products/add', ProductController::class, 'addOrUpdateProducts')->name('products.add');
 
 Route::resource('recipes', RecipeController::class)->only(['index'])->middleware(['auth','verified']);
 
