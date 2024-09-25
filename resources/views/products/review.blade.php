@@ -1,15 +1,15 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Products') }}
+            {{ __('Edit Selected Products') }}
         </h2>
     </x-slot>
 
     <div class="py-2">
-        <form action="{{ route('products.review') }}" method="post">
-            @csrf
-            @foreach ($products as $product)
-                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-2">
+        {{-- <form action="" method="post"> --}}
+            {{-- @csrf --}}
+            {{-- @foreach ($products as $product) --}}
+                {{-- <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-2">
                     <label class="">
                         <input type="checkbox" name="products[]" value="{{ $product->id }}" class="hidden product-checkbox">
                         <div class="product-info cursor-pointer bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -18,18 +18,18 @@
                             </div>
                         </div>
                     </label>
-                </div>
-            @endforeach
+                </div> --}}
+            {{-- @endforeach --}}
             
             <div class="flex mt-4">
                 <div class="flex-1 text-center">                
-                    <x-primary-button name="action" value="shopping" class="flex-1">{{ __("Add to ShoppingList") }}</x-primary-button>
+                    <x-primary-button name="add" class="flex-1">{{ __("Add") }}</x-primary-button>
                 </div>
-                <div class="flex-1 text-center">
-                    <x-primary-button name="action" value="storage" class="flex-1">{{ __("Add to StorageList") }}</x-primary-button>
-                </div>
+                {{-- <div class="flex-1 text-center">
+                    <x-primary-button name="add_to_storage" class="flex-1">{{ __("Add to StorageList") }}</x-primary-button>
+                </div> --}}
             </div>
-        </form>
+        {{-- </form> --}}
     </div>
 </x-app-layout>
 
