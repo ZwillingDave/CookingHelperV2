@@ -9,7 +9,7 @@
         <form action="" method="post">
             @csrf
             @foreach ($products as $product)
-                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-2">
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-2" id="product-row-{{ $product->id }}">
                         <div class=" bg-white overflow-hidden shadow-sm sm:rounded-lg">
                             <div class="p-6 text-gray-900 relative flex items-center gap-6">
                                <span class="flex-1 font-medium text-center">{{ __($product->name) }}</span>
@@ -19,6 +19,9 @@
                                        <option value="{{ $unit->id }}">{{ __($unit->name) }}</option>
                                    @endforeach
                                </select>
+                               <x-secondary-button type="button" onclick="removeProductRow({{ $product->id }})">
+                                {{ __('Remove') }}
+                                </x-secondary-button>
                             </div>
                         </div>
                 </div>
@@ -32,7 +35,7 @@
                     <x-primary-button name="add_to_storage" class="flex-1">{{ __("Add to StorageList") }}</x-primary-button>
                 </div> --}}
             </div>
-        {{-- </form> --}}
+        </form>
     </div>
 </x-app-layout>
 
@@ -50,3 +53,12 @@
         width: 50%;
     }
 </style>
+
+<script>
+    function removeProductRow(productId) {
+        var productRow = document.getElementById('product-row-' + productId);
+        if (productRow) {
+            productRow.remove();
+        }
+    }
+</script>
