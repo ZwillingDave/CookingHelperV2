@@ -29,6 +29,7 @@
                 </div>
             @endforeach
             <!-- Buttons zum Aktualisieren und Hinzufügen der Produkte -->
+            @if($action === "storage")
              <div class="flex mt-4">
                 <div class="flex-1 text-center">
                     <!-- Update-Button -->
@@ -39,6 +40,15 @@
                     <x-primary-button name="action" value="add_to_storage" class="flex-1">{{ __("Add to Storage") }}</x-primary-button>
                 </div>
             </div>
+            @endif
+            @if($action === "shopping")
+            <div class="flex mt-4">
+               <div class="flex-1 text-center">
+                   <x-primary-button name="action" value="shopping" class="flex-1">{{ __("Add") }}</x-primary-button>
+               </div>
+           </div>
+            @endif
+
         </form>
     </div>
 </x-app-layout>
