@@ -6,9 +6,9 @@
     </x-slot>
 
     <div class="py-2">
-        <!-- Formular zum Bearbeiten der ausgewählten Produkte -->
-        <form action="" method="post">
+        <form action="{{ route('products.add-or-update')}}" method="post">
             @csrf
+            @method('patch')
             @foreach ($products as $product)
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-2" id="product-row-{{ $product->id }}">
                     <div class=" bg-white overflow-hidden shadow-sm sm:rounded-lg">

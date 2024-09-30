@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Product;
+use App\Models\ShoppingList;
+use App\Models\ShoppingListItem;
 use Illuminate\Http\Request;
 use App\Models\Unit;
+use Illuminate\Support\Facades\Auth;
 
 
 class ProductController extends Controller
@@ -29,6 +33,73 @@ class ProductController extends Controller
     }
 
     // todo addorupdate implementation
+    public function addOrUpdateProducts(Request $request){
+        $products = $request->input('products', []);
+
+        $action = $request->input('action');
+
+        $validatedData = $request->validate([
+            'products.*.amount' => 'required|integer|min:1',
+            'products.*.unit' => 'required|integer|exists:units,id',
+        ]);
+
+        if($action === 'shopping'){
+            
+            $currentShoppingList = ShoppingList::where('user_id', Auth::user()->id)->latest()->first();
+            
+            $createNewShoppinglist = false;
+            if($currentShoppingList){
+                $isAnyItemPurchased = ShoppingListItem::where('shopping_list_id', $currentShoppingList->id)
+                ->where('is_purchased', true)
+                ->exists();
+
+                $isDifferentDate = $currentShoppingList->created_at->format('d.m.Y') !== now()->format('d.m.Y');
+
+                if($isAnyItemPurchased || $isDifferentDate){
+                    $createNewShoppinglist = true;
+                }
+            }
+            else{
+                $createNewShoppinglist = true;
+            }
+
+            if($createNewShoppinglist){
+                $currentShoppingList = ShoppingList::create([
+                    'user_id' => Auth::user()->id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
+            foreach ($products as $productId => $productData) {
+                $product = Product::find($productId);
+
+                var_dump($products);
+                if($product){
+                    ShoppingListItem::updateOrCreate([
+                        'shopping_list_id' => $currentShoppingList->id,
+                        'product_id' => $productId,],[
+                        'product_name' => $productData->name,
+                        'quantity' => $productData['amount'],
+                        'unit_id' => $productData['unit'],
+                        'is_purchased' => false,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
+            }
+            // return redirect()->route('shoppinglists.index')->with('success', 'Products added to shopping list');
+        }
+
+
+
+
+
+        if ($action === 'storage') {
+            
+        }
+        
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -76,4 +147,6 @@ class ProductController extends Controller
     {
         //
     }
+
+
 }

@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ShoppingListItem extends Model
 {
+    protected $fillable = [
+        'shopping_list_id',
+    ];
     public function product()
     {
         return $this->belongsTo(Product::class);

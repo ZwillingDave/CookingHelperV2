@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('shopping_list_items', function (Blueprint $table) {
             $table->id(); // Primärschlüssel
             $table->unsignedBigInteger('shopping_list_id'); // Verknüpfung zur shoppinglist
-            $table->string('name'); // Name des Produkts
+            $table->string('product_name'); // Name des Produkts
             $table->unsignedBigInteger('product_id'); // Verknüpfung zu Produkten
             $table->float('quantity'); // Menge des Produkts
             $table->unsignedBigInteger('unit_id'); // Verknüpfung zur Einheit
+            $table->boolean('is_purchased')->default(false); // Ist das Produkt gekauft
             $table->timestamps(); // Erstellt created_at und updated_at
         });
     }
