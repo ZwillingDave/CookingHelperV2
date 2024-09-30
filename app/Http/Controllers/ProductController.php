@@ -6,10 +6,10 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\ShoppingList;
 use App\Models\ShoppingListItem;
-use Illuminate\Http\Request;
+use App\Models\Storage;
 use App\Models\Unit;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 
 class ProductController extends Controller
 {
@@ -24,7 +24,8 @@ class ProductController extends Controller
     }
 
 
-    public function reviewSelection(Request $request){
+    public function reviewSelection(Request $request)
+    {
         $selectedProductIds = $request->input('products', []);
         $action = $request->input('action');
         $products = Product::whereIn('id', $selectedProductIds)->get();
@@ -33,7 +34,8 @@ class ProductController extends Controller
     }
 
     // todo addorupdate implementation
-    public function addOrUpdateProducts(Request $request){
+    public function addOrUpdateProducts(Request $request)
+    {
         $products = $request->input('products', []);
 
         $action = $request->input('action');
@@ -43,27 +45,26 @@ class ProductController extends Controller
             'products.*.unit' => 'required|integer|exists:units,id',
         ]);
 
-        if($action === 'shopping'){
-            
+        if ($action === 'shopping') {
+
             $currentShoppingList = ShoppingList::where('user_id', Auth::user()->id)->latest()->first();
-            
+
             $createNewShoppinglist = false;
-            if($currentShoppingList){
+            if ($currentShoppingList) {
                 $isAnyItemPurchased = ShoppingListItem::where('shopping_list_id', $currentShoppingList->id)
-                ->where('is_purchased', true)
-                ->exists();
+                    ->where('is_purchased', true)
+                    ->exists();
 
                 $isDifferentDate = $currentShoppingList->created_at->format('d.m.Y') !== now()->format('d.m.Y');
 
-                if($isAnyItemPurchased || $isDifferentDate){
+                if ($isAnyItemPurchased || $isDifferentDate) {
                     $createNewShoppinglist = true;
                 }
-            }
-            else{
+            } else {
                 $createNewShoppinglist = true;
             }
 
-            if($createNewShoppinglist){
+            if ($createNewShoppinglist) {
                 $currentShoppingList = ShoppingList::create([
                     'user_id' => Auth::user()->id,
                     'created_at' => now(),
@@ -75,10 +76,11 @@ class ProductController extends Controller
                 $product = Product::find($productId);
 
                 var_dump($products);
-                if($product){
+                if ($product) {
                     ShoppingListItem::updateOrCreate([
                         'shopping_list_id' => $currentShoppingList->id,
-                        'product_id' => $productId,],[
+                        'product_id' => $productId,
+                    ], [
                         'product_name' => $productData->name,
                         'quantity' => $productData['amount'],
                         'unit_id' => $productData['unit'],
@@ -88,7 +90,7 @@ class ProductController extends Controller
                     ]);
                 }
             }
-            // return redirect()->route('shoppinglists.index')->with('success', 'Products added to shopping list');
+            return redirect()->route('shoppinglists.index')->with('success', 'Products added to shopping list');
         }
 
 
@@ -96,9 +98,22 @@ class ProductController extends Controller
 
 
         if ($action === 'storage') {
-            
+            foreach ($products as $productId => $productData) {
+                $product = Product::find($productId);
+
+                if ($product) {
+                    Storage::updateOrCreate([
+                        'product_id' => $productId,
+                    ], [
+                        'quantity' => $productData['amount'],
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
+            }
+            return redirect()->route('storage.index')->with('success', 'Products added to storage');
         }
-        
+
     }
     /**
      * Show the form for creating a new resource.
