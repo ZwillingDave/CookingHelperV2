@@ -14,10 +14,12 @@ return new class extends Migration
     Schema::create('storage', function (Blueprint $table) {
         $table->id(); // Primärschlüssel
         $table->unsignedBigInteger('product_id'); // Verknüpfung zu Produkten
+        $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade'); // Fremdschlüssel hinzufügen
         $table->float('quantity'); // Menge des Produkts im Lager
         $table->timestamps(); // Erstellt created_at und updated_at
     });
 }
+
 
 
     /**

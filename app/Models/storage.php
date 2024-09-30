@@ -7,5 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class storage extends Model
 {
+    // Verwendung des HasFactory-Traits
     use HasFactory;
+
+    // Spalten, die beschreibbar sind festlegen
+    protected $fillable = [
+        'product_id',
+        'quantity'
+    ];
+    // Name der Tabelle auf 'storage' setzen
+    protected $table = 'storage'; 
 }

@@ -14,8 +14,11 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            //ProductSeeder::class,
-            RecipeSeeder::class // Hier sollte dein ProductSeeder eingetragen sein
+            ProductSeeder::class,// Dieser Befehl ruft den ProductSeeder auf und füllt die Datenbank mit den Daten aus der run-Methode
+            RecipeSeeder::class, // Dieser Befehl ruft den RecipeSeeder auf und füllt die Datenbank mit den Daten aus der run-Methode
+            UnitsSeeder::class, // Dieser Befehl ruft den UnitsSeeder auf und füllt die Datenbank mit den Daten aus der run-Methode
+            UsersSeeder::class // Dieser Befehl ruft den UsersSeeder auf und füllt die Datenbank mit den Daten aus der run-Methode
+
         ]);
     }
 }

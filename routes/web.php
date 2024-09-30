@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShoppingListController;
+use App\Http\Controllers\StorageController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -34,6 +35,8 @@ Route::resource('shoppinglists', ShoppingListController::class)->only(['index', 
 Route::get('/shoppinglists/{id}', [ShoppingListController::class, 'show']);
 
 Route::get('/recepies/{id}', [RecipeController::class, 'show'])->name('recepies.show');
+
+Route::get('/storage', [StorageController::class, 'index'])->name('storage.index')->middleware(['auth','verified']);
 
 
 require __DIR__.'/auth.php';
