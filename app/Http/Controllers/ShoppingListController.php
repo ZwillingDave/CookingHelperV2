@@ -41,13 +41,15 @@ class ShoppingListController extends Controller
      * Display the specified resource.
      */
     public function show($id)
-    {
+    {   $shoppingList = ShoppingList::where('user_id', Auth::user()->id)->find($id);
+        $shoppinglistItems = ShoppingListItem::where('shopping_list_id', $id)->get();
         
-        
+        if (!$shoppingList) {
+            return redirect(route('shoppinglists.index'));
+        }
         return view('shoppinglists.show', [
-            'shoppinglist' => ShoppingList::with('user')->find($id),
-            'id' => $id,
-            'shoppinglistItems' => ShoppingListItem::with('shoppingList')->get(),
+            'shoppinglist' => $shoppingList,
+            'shoppinglistItems' => $shoppinglistItems,
         ]);
     }
 
