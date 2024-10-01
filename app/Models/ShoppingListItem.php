@@ -8,6 +8,11 @@ class ShoppingListItem extends Model
 {
     protected $fillable = [
         'shopping_list_id',
+        'product_name',
+        'product_id',
+        'quantity',
+        'unit_id',
+        'is_purchased',
     ];
     public function product()
     {

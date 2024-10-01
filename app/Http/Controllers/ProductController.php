@@ -75,13 +75,14 @@ class ProductController extends Controller
             foreach ($products as $productId => $productData) {
                 $product = Product::find($productId);
 
-                var_dump($products);
+                
                 if ($product) {
+                    var_dump($product);
                     ShoppingListItem::updateOrCreate([
                         'shopping_list_id' => $currentShoppingList->id,
                         'product_id' => $productId,
-                    ], [
-                        'product_name' => $productData->name,
+                    
+                        'product_name' => $product['name'],
                         'quantity' => $productData['amount'],
                         'unit_id' => $productData['unit'],
                         'is_purchased' => false,
@@ -90,7 +91,7 @@ class ProductController extends Controller
                     ]);
                 }
             }
-            return redirect()->route('shoppinglists.index')->with('success', 'Products added to shopping list');
+            // return redirect()->route('shoppinglists.index')->with('success', 'Products added to shopping list');
         }
 
 
