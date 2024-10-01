@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ShoppingList;
 use Illuminate\Http\Request;
 use App\Models\ShoppingListItem;
+use Illuminate\Support\Facades\Auth;
 
 
 class ShoppingListController extends Controller
@@ -14,8 +15,9 @@ class ShoppingListController extends Controller
      */
     public function index()
     {
+        $shoppinglists = ShoppingList::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
         return view('shoppinglists.index', [
-            'shoppinglists' => ShoppingList::with('user')->get(),
+            'shoppinglists' => $shoppinglists
         ]);
     }
 
