@@ -77,7 +77,6 @@ class ProductController extends Controller
 
                 
                 if ($product) {
-                    var_dump($product);
                     ShoppingListItem::updateOrCreate([
                         'shopping_list_id' => $currentShoppingList->id,
                         'product_id' => $productId,
@@ -91,7 +90,7 @@ class ProductController extends Controller
                     ]);
                 }
             }
-            // return redirect()->route('shoppinglists.index')->with('success', 'Products added to shopping list');
+            return redirect()->route('shoppinglists.index')->with('success', 'Products added to shopping list');
         }
 
 
