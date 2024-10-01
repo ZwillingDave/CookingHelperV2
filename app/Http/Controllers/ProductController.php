@@ -75,14 +75,19 @@ class ProductController extends Controller
             foreach ($products as $productId => $productData) {
                 $product = Product::find($productId);
 
-                
                 if ($product) {
+                    $listItem = ShoppingListItem::where('shopping_list_id', $currentShoppingList->id)
+                    ->where('product_id', $productId)
+                    ->first();
+                    $listItemQty = $listItem === null || $listItem->quantity === null ? 0 : $listItem->quantity;
+                    $amount = (int)$productData['amount'] + $listItemQty;
+                    
                     ShoppingListItem::updateOrCreate([
                         'shopping_list_id' => $currentShoppingList->id,
                         'product_id' => $productId,
-                    
+                    ],[
                         'product_name' => $product['name'],
-                        'quantity' => $productData['amount'],
+                        'quantity' => $amount,
                         'unit_id' => $productData['unit'],
                         'is_purchased' => false,
                         'created_at' => now(),
