@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\storage;
+use App\Models\storageItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class StorageController extends Controller
+class StorageItemController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class StorageController extends Controller
     public function index()
     {
         
-        $storageItems = Storage::where('user_id', Auth::user()->id)->get();
+        $storageItems = StorageItem::where('user_id', Auth::user()->id)->get();
         
         return view('storage.index', [
             'storageItems' => $storageItems,
@@ -40,7 +40,7 @@ class StorageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(storage $storage)
+    public function show(storageItem $storage)
     {
         //
     }
@@ -48,7 +48,7 @@ class StorageController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(storage $storage)
+    public function edit(storageItem $storage)
     {
         //
     }
@@ -56,7 +56,7 @@ class StorageController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, storage $storage)
+    public function update(Request $request, storageItem $storage)
     {
         //
     }
@@ -64,7 +64,7 @@ class StorageController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(storage $storage)
+    public function destroy(storageItem $storage)
     {
         //
     }

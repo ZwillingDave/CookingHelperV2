@@ -15,9 +15,9 @@ class Product extends Model
     }
 
     // Ein Produkt kann in der Lagerliste vorkommen
-    public function storage()
+    public function storageItems()
     {
-        return $this->hasOne(Storage::class);
+        return $this->hasMany(StorageItem::class);
     }
 
     // Ein Produkt kann auf einer Einkaufsliste stehen

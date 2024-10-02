@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class storage extends Model
+class StorageItem extends Model
 {
     // Verwendung des HasFactory-Traits
     use HasFactory;
@@ -19,6 +19,15 @@ class storage extends Model
         'product_name',
         
     ];
-    // Name der Tabelle auf 'storage' setzen
-    protected $table = 'storage'; 
+    
+    protected $table = 'storageitems'; 
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class);
+    }
 }
