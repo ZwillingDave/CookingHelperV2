@@ -13,7 +13,11 @@ class storage extends Model
     // Spalten, die beschreibbar sind festlegen
     protected $fillable = [
         'product_id',
-        'quantity'
+        'quantity',
+        'user_id',
+        'unit_id',
+        'product_name',
+        
     ];
     // Name der Tabelle auf 'storage' setzen
     protected $table = 'storage'; 
