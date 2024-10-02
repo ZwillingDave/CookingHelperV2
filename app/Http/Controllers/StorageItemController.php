@@ -40,7 +40,7 @@ class StorageItemController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(storageItem $storage)
+    public function show(storageItem $storageItem)
     {
         //
     }
@@ -48,7 +48,7 @@ class StorageItemController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(storageItem $storage)
+    public function edit(storageItem $storageItem)
     {
         //
     }
@@ -56,7 +56,7 @@ class StorageItemController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, storageItem $storage)
+    public function update(Request $request, storageItem $storageItem)
     {
         //
     }
@@ -64,7 +64,7 @@ class StorageItemController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(storageItem $storage)
+    public function destroy(storageItem $storageItem)
     {
         //
     }
