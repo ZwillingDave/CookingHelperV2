@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StorageController extends Controller
 {
@@ -12,10 +13,12 @@ class StorageController extends Controller
      */
     public function index()
     {
-        // hole die Daten aus der Datenbank und speichere sie in der Variable $storages
-        $storages = storage::all();
-        // gebe die View storage.index zurück und übergebe die Variable $storages
-        return view('storage.index', compact('storages'));
+        
+        $storageItems = Storage::where('user_id', Auth::user()->id)->get();
+        
+        return view('storage.index', [
+            'storageItems' => $storageItems,
+        ]);
     }
 
     /**
