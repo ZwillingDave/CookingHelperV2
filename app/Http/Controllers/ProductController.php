@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\ShoppingList;
 use App\Models\ShoppingListItem;
 use App\Models\Storage;
+use App\Models\storageItem;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -106,11 +107,14 @@ class ProductController extends Controller
             foreach ($products as $productId => $productData) {
                 $product = Product::find($productId);
 
-                if ($product) {
-                    Storage::updateOrCreate([
+                if ($product) {  
+                    StorageItem::updateOrCreate([
                         'product_id' => $productId,
+                        'user_id' => Auth::user()->id,
                     ], [
+                        'product_name' => $product['name'],
                         'quantity' => $productData['amount'],
+                        'unit_id' => $productData['unit'],
                         'created_at' => now(),
                         'updated_at' => now(),
                     ]);
