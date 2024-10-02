@@ -37,18 +37,35 @@ class ProductController extends Controller
     // todo addorupdate implementation
     public function addOrUpdateProducts(Request $request)
     {
-        $products = $request->input('products', []);
-
         $action = $request->input('action');
 
+        if ($action === 'shopping') {
+            $this->storeToShoppingList($request);
+            return redirect()->route('shoppinglists.index')->with('success', 'Products added to shopping list');
+        }
+
+        if ($action === 'storage') {
+            $this->storeToStorage($request);
+            return redirect()->route('storage.index')->with('success', 'Products added to storage');
+        }
+
+    }
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    public function storeToShoppingList(Request $request){
+        $products = $request->input('products', []);
         $validatedData = $request->validate([
             'products.*.amount' => 'required|integer|min:1',
             'products.*.unit' => 'required|integer|exists:units,id',
         ]);
-
-        if ($action === 'shopping') {
-
-            $currentShoppingList = ShoppingList::where('user_id', Auth::user()->id)->latest()->first();
+        
+        $currentShoppingList = ShoppingList::where('user_id', Auth::user()->id)->latest()->first();
 
             $createNewShoppinglist = false;
             if ($currentShoppingList) {
@@ -96,15 +113,19 @@ class ProductController extends Controller
                     ]);
                 }
             }
-            return redirect()->route('shoppinglists.index')->with('success', 'Products added to shopping list');
-        }
-
-
-
-
-
-        if ($action === 'storage') {
-            foreach ($products as $productId => $productData) {
+            
+    }
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function storeToStorage(Request $request)
+    {
+        $products = $request->input('products', []);
+        $validatedData = $request->validate([
+            'products.*.amount' => 'required|integer|min:1',
+            'products.*.unit' => 'required|integer|exists:units,id',
+        ]);
+        foreach ($products as $productId => $productData) {
                 $product = Product::find($productId);
                 $storageItem = StorageItem::where('user_id', Auth::user()->id)
                     ->where('product_id', $productId)
@@ -124,24 +145,7 @@ class ProductController extends Controller
                     ]);
                 }
             }
-            return redirect()->route('storage.index')->with('success', 'Products added to storage');
-        }
-
-    }
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+            
     }
 
     /**
