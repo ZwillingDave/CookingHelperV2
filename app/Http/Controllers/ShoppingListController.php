@@ -6,6 +6,7 @@ use App\Models\ShoppingList;
 use Illuminate\Http\Request;
 use App\Models\ShoppingListItem;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Unit;
 
 
 class ShoppingListController extends Controller
@@ -15,7 +16,8 @@ class ShoppingListController extends Controller
      */
     public function index()
     {
-        $shoppinglists = ShoppingList::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
+        $shoppinglists = ShoppingList::where('user_id', Auth::user()->id)->with(['shoppingListItems'])->orderBy('created_at', 'desc')->get();
+        
         return view('shoppinglists.index', [
             'shoppinglists' => $shoppinglists
         ]);
@@ -43,6 +45,8 @@ class ShoppingListController extends Controller
     public function show($id)
     {   $shoppingList = ShoppingList::where('user_id', Auth::user()->id)->find($id);
         $shoppinglistItems = ShoppingListItem::where('shopping_list_id', $id)->get();
+        $notAllPurchased = ShoppingListItem::where('shopping_list_id', $shoppingList->id)->where('is_purchased', 0)->exists();
+        $units = Unit::all();
         
         if (!$shoppingList) {
             return redirect(route('shoppinglists.index'));
@@ -50,6 +54,8 @@ class ShoppingListController extends Controller
         return view('shoppinglists.show', [
             'shoppinglist' => $shoppingList,
             'shoppinglistItems' => $shoppinglistItems,
+            'notAllPurchased' => $notAllPurchased,
+            'units' => $units,
         ]);
     }
 
