@@ -12,7 +12,11 @@
                         <input type="checkbox" name="products[]" value="{{ $storageItem->id }}" class="hidden product-checkbox">
                         <div class="product-info cursor-pointer bg-white overflow-hidden shadow-sm sm:rounded-lg">
                             <div class="p-6 text-gray-900 relative">
-                                {{ __($storageItem->product_name) }}
+                                @if ($storageItem->product->image)
+                                <img src="/images/products/{{ $storageItem->product->image }}" alt="">{{ __($storageItem->product_name) }}
+                                @else
+                                <img src="/images/no-image.png" alt="">{{ __($storageItem->product_name) }}
+                                @endif
                             </div>
                         </div>
                     </label>
