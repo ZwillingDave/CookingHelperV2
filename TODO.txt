@@ -28,5 +28,5 @@ finished -- DB Storage - add unit name
 
 finished -- Products-EDIT: connect to database/in die shopping list oder in die storage list
 products - canvas is scrollable max 3-4 items
-Single recepie site
+half -- Single recepie site
 
