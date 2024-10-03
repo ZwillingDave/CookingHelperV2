@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\ShoppingList;
 use App\Models\ShoppingListItem;
-use App\Models\Storage;
 use App\Models\storageItem;
 use App\Models\Unit;
 use Illuminate\Http\Request;
@@ -45,6 +44,7 @@ class ProductController extends Controller
         }
 
         if ($action === 'storage') {
+            
             $this->storeToStorage($request);
             return redirect()->route('storage.index')->with('success', 'Products added to storage');
         }
@@ -122,31 +122,34 @@ class ProductController extends Controller
     {
         $products = $request->input('products', []);
         $validatedData = $request->validate([
-            'products.*.amount' => 'required|integer|min:1',
-            'products.*.unit' => 'required|integer|exists:units,id',
-        ]);
+                'products.*.amount' => 'required|integer|min:1',
+                'products.*.unit' => 'required|integer|exists:units,id',
+            ]);
+        
+        
         foreach ($products as $productId => $productData) {
-                $product = Product::find($productId);
-                $storageItem = StorageItem::where('user_id', Auth::user()->id)
-                    ->where('product_id', $productId)
-                    ->first();
-                $storageItemQty = $storageItem === null || $storageItem->quantity === null ? 0 : $storageItem->quantity;
-                $amount = (int)$productData['amount'] + $storageItemQty;
-                if ($product) {  
-                    StorageItem::updateOrCreate([
-                        'product_id' => $productId,
-                        'user_id' => Auth::user()->id,
-                    ], [
-                        'product_name' => $product['name'],
-                        'quantity' => $amount,
-                        'unit_id' => $productData['unit'],
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]);
-                }
-            }
-            
-    }
+            $product = Product::find($productId);
+            $storageItem = StorageItem::where('user_id', Auth::user()->id)
+                ->where('product_id', $productId)
+                ->first();
+            $storageItemQty = $storageItem === null || $storageItem->quantity === null ? 0 : $storageItem->quantity;
+            $amount = (float)$productData['amount'] + $storageItemQty;
+
+            if ($product) {  
+            StorageItem::updateOrCreate(
+                [
+                'product_id' => $productId,
+                'user_id' => Auth::user()->id,
+                ], [
+                'product_name' => $product['name'],
+                'quantity' => $amount,
+                'unit_id' => $productData['unit'],
+                'updated_at' => now(),
+                ]);
+            }               
+        }
+    }        
+    
 
     /**
      * Display the specified resource.
