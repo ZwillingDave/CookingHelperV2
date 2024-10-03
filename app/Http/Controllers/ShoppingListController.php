@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\ShoppingListItem;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Unit;
-
+use App\Models\Product;
+use App\Models\StorageItem;
 
 class ShoppingListController extends Controller
 {
@@ -37,6 +38,50 @@ class ShoppingListController extends Controller
     public function store(Request $request)
     {
         //
+    }
+    public function storeToStorage(Request $request)
+    {
+        $id = $request->id;
+        $selectedProductIds = $request->input('selected', []);
+        $products = $request->input('products', []);
+        $validatedData = $request->validate([
+                'products.*.amount' => 'required|integer|min:1',
+                'products.*.unit' => 'required|integer|exists:units,id',
+            ]);
+        
+        
+        foreach ($selectedProductIds as $productId) {
+            $product = Product::find($productId);
+            if(isset($products[$productId])){
+                $productData = $products[$productId];
+                $storageItem = StorageItem::where('user_id', Auth::user()->id)
+                    ->where('product_id', $productId)
+                    ->first();
+                $storageItemQty = $storageItem === null || $storageItem->quantity === null ? 0 : $storageItem->quantity;
+                $amount = (float)$productData['amount'] + $storageItemQty;
+
+
+                if ($product) {  
+                StorageItem::updateOrCreate([
+                    'product_id' => $productId,
+                    'user_id' => Auth::user()->id,
+                ], [
+                    'product_name' => $product['name'],
+                    'quantity' => $amount,
+                    'unit_id' => $productData['unit'],
+                    'updated_at' => now(),
+                ]);
+                ShoppingListItem::updateorCreate([
+                    'product_id' => $productId,
+                    'shopping_list_id' => $id,
+                ],[
+                    'is_purchased' => 1,
+                ]);
+                
+            }
+                
+            }
+        }        
     }
 
     /**
