@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Recipe;
 use Illuminate\Http\Request;
+use App\Models\Ingredient;
 
 class RecipeController extends Controller
 {
@@ -11,7 +12,7 @@ class RecipeController extends Controller
     public function index()
     {
         return view('recipes.index', [
-            'recipes' => Recipe::with('ingredients')->get(),
+            'recipes' => Recipe::all(),
         ]);
     }
 
@@ -36,7 +37,16 @@ class RecipeController extends Controller
      */
     public function show(Recipe $recipe)
     {
-        //
+        $ingredients = Ingredient::where('recipe_id', $recipe->id)->with('product')->with('unit')->get();
+        $instruction = $recipe->instruction;
+        $steps = explode(";", $instruction);
+        
+        return view('recipes.show', [
+            'recipe' => $recipe,
+            'ingredients' => $ingredients,
+            'instructionsteps' => $steps,
+
+        ]);
     }
 
     /**
