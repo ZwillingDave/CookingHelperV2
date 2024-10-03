@@ -31,7 +31,8 @@ Route::resource('products', ProductController::class)->only(['index', 'review', 
 Route::post('/products/review', [ProductController::class, 'reviewSelection'])->name('products.review')->middleware(['auth','verified']);
 Route::patch('/products/review', [ProductController::class, 'addOrUpdateProducts'])->name('products.add-or-update')->middleware(['auth','verified']);
 
-Route::resource('recipes', RecipeController::class)->only(['index'])->middleware(['auth','verified']);
+Route::resource('recipes', RecipeController::class)->only(['index', 'show'])->middleware(['auth','verified']);
+Route::get('/recipes/{id}', [RecipeController::class, 'show'])->name('recipes.show') ->middleware(['auth','verified']);
 
 Route::resource('shoppinglists', ShoppingListController::class)->only(['index', 'show', 'add-or-update'])->middleware(['auth','verified']);
 Route::get('/shoppinglists/{id}', [ShoppingListController::class, 'show'])->middleware(['auth','verified']);
