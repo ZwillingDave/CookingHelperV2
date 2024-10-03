@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-2">
+    <div class="py-2 flex-grow">
         <form action="{{ route('products.review') }}" method="post">
             @csrf
             @foreach ($products as $product)
@@ -14,7 +14,11 @@
                         <input type="checkbox" name="products[]" value="{{ $product->id }}" class="hidden product-checkbox">
                         <div class="product-info cursor-pointer bg-white overflow-hidden shadow-sm sm:rounded-lg">
                             <div class="p-6 text-gray-900 relative">
-                                {{ __($product->name) }}
+                                @if ($product->image)
+                                <img src="/images/products/{{ $product->image }}" alt="">{{ __($product->name) }}
+                                @else
+                                <img src="/images/no-image.png" alt="">{{ __($product->name) }}
+                                @endif
                             </div>
                         </div>
                     </label>
