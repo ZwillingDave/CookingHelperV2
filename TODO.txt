@@ -13,11 +13,11 @@ navbar verschönern
 Dashboard make it beautifull
 
 @michi
-ShoppingList-List -> products add to storage
-ShoppingList-DB add purcased field
-ShoppingList-List -> purcased item is Gray
+finished -- ShoppingList-List -> products add to storage
+finished -- ShoppingList-DB add purcased field
+finished -- ShoppingList-List -> purcased item is Gray
 Storage list - item at storage
-DB Storage - add unit name
+finished -- DB Storage - add unit name
 
 
 
@@ -25,7 +25,7 @@ DB Storage - add unit name
 
 @dave
 
-Products-EDIT: connect to database/in die shopping list oder in die storage list
+finished -- Products-EDIT: connect to database/in die shopping list oder in die storage list
 products - canvas is scrollable max 3-4 items
 Single recepie site
 
