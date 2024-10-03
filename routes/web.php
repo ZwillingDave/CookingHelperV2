@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShoppingListController;
 use App\Http\Controllers\StorageItemController;
+use App\Models\Product;
+use App\Models\ShoppingListItem;
 
 Route::get('/', function () {
     return view('welcome');
@@ -31,8 +33,9 @@ Route::patch('/products/review', [ProductController::class, 'addOrUpdateProducts
 
 Route::resource('recipes', RecipeController::class)->only(['index'])->middleware(['auth','verified']);
 
-Route::resource('shoppinglists', ShoppingListController::class)->only(['index', 'show'])->middleware(['auth','verified']);
+Route::resource('shoppinglists', ShoppingListController::class)->only(['index', 'show', 'add-or-update'])->middleware(['auth','verified']);
 Route::get('/shoppinglists/{id}', [ShoppingListController::class, 'show'])->middleware(['auth','verified']);
+Route::patch('/shoppinglists/{id}', [ShoppingListController::class, 'storeToStorage'])->name('shoppinglists.add-or-update')->middleware(['auth','verified']);
 
 Route::get('/recepies/{id}', [RecipeController::class, 'show'])->name('recepies.show');
 
