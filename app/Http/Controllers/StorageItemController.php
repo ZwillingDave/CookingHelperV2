@@ -14,7 +14,7 @@ class StorageItemController extends Controller
     public function index()
     {
         
-        $storageItems = StorageItem::where('user_id', Auth::user()->id)->get();
+        $storageItems = StorageItem::where('user_id', Auth::user()->id)->with('product')->get();
         
         return view('storage.index', [
             'storageItems' => $storageItems,
