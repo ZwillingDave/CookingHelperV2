@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-2">
+    <div class="py-2 flex-grow">
         <form action="{{ route('products.add-or-update')}}" method="post">
             @csrf
             @method('patch')
