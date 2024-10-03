@@ -6,21 +6,24 @@
     </x-slot>
     
     <div class="py-2">
-        <form action="{{ route('products.add-or-update')}}" method="POST">
+        <form action="{{ route('shoppinglists.add-or-update', ['id' => $shoppinglist->id])}}" method="POST">
             @csrf
-            @method('post')
+            @method('patch')
         @foreach ($shoppinglistItems as $shoppinglistItem)
 
             @if($shoppinglistItem->is_purchased == 0)
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-2">
                     <label class="">
-                        <input type="checkbox" name="products[]" value="{{ $shoppinglistItem->id }}" class="hidden product-checkbox">
+                        <input type="checkbox" name="selected[]" value="{{ $shoppinglistItem->id }}" class="hidden product-checkbox">
                         <div class="product-info cursor-pointer bg-white overflow-hidden shadow-sm sm:rounded-lg">
                             <div class="p-6 text-gray-900 relative flex">
-                                <span name="products[{{ $shoppinglistItem->id }}][product_id]" value="{{$shoppinglistItem->product_id}}" class="flex-1">{{ __($shoppinglistItem->product_name) }}</span>
+                                <input name="products[{{ $shoppinglistItem->id }}][product_id]" value="{{$shoppinglistItem->product_id}}" type="hidden" readonly>
+                                <span class="flex-1">{{ __($shoppinglistItem->product_name) }}</span>
                                 @foreach ($units as $unit)
                                     @if ($unit->id == $shoppinglistItem->unit_id)
-                                    <span class="flex-1 text-center"><span name="products[{{ $shoppinglistItem->id }}][amount]" value="{{$shoppinglistItem->quantity}}">{{ __($shoppinglistItem->quantity) }}</span> <span name="products[{{ $shoppinglistItem->id }}][unit]">{{ __($unit->name) }}</span></span>
+                                    <input name="products[{{ $shoppinglistItem->id }}][unit]" value="{{$shoppinglistItem->unit_id}}" type="hidden" readonly>
+                                    <input name="products[{{ $shoppinglistItem->id }}][amount]" value="{{$shoppinglistItem->quantity}}" type="hidden" readonly>
+                                    <span class="flex-1 text-center"><span>{{ __($shoppinglistItem->quantity) }}</span> <span name="products[{{ $shoppinglistItem->id }}][unit]">{{ __($unit->name) }}</span></span>
                                     @endif
                                 @endforeach
                                 <span class="flex-1 text-right"></span>
