@@ -65,9 +65,37 @@ class StorageItemController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, storageItem $storageItem)
+    public function update(Request $request)
     {
-        //
+        $products = $request->input('products', []);
+        $validatedData = $request->validate([
+                'products.*.amount' => 'required|integer|min:1',
+                'products.*.unit' => 'required|integer|exists:units,id',
+            ]);
+        
+        
+        foreach ($products as $productId => $productData) {
+            
+            $product = Product::find($productData['product_id']);
+            $storageItem = StorageItem::where('user_id', Auth::user()->id)
+                ->where('product_id', $product->id)
+                ->first();
+            
+            $amount = (float)$productData['amount'];
+            if ($product) {  
+                StorageItem::updateOrCreate(
+                    [
+                    'product_id' => $productData['product_id'],
+                    'user_id' => Auth::user()->id,
+                    ], [
+                    'product_name' => $product['name'],
+                    'quantity' => $amount,
+                    'unit_id' => $productData['unit'],
+                    'updated_at' => now(),
+                    ]);
+                return redirect(route('storage.index'));
+            }               
+        }
     }
 
     /**
