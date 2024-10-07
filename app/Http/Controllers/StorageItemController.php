@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\storageItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Unit;
 
 class StorageItemController extends Controller
 {
@@ -19,6 +21,13 @@ class StorageItemController extends Controller
         return view('storage.index', [
             'storageItems' => $storageItems,
         ]);
+    }
+    public function editSelection(Request $request)
+    {
+        $selectedProductIds = $request->input('products', []);
+        $storageItems = StorageItem::where('user_id', Auth::user()->id)->whereIn('id', $selectedProductIds)->get();
+        $units = Unit::all();
+        return view('storage.edit', compact('units', 'storageItems'));
     }
 
     /**
