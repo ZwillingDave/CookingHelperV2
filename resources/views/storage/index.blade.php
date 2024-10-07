@@ -6,7 +6,9 @@
     </x-slot>
 
     <div class="py-2 flex-grow">
-        @foreach ($storageItems as $storageItem)
+        <form action="{{route('storage.review')}}" method="post">
+            @csrf
+            @foreach ($storageItems as $storageItem)
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-2">
                     <label class="">
                         <input type="checkbox" name="products[]" value="{{ $storageItem->id }}" class="hidden product-checkbox">
@@ -22,5 +24,26 @@
                     </label>
                 </div>
             @endforeach
+            <div class="flex mt-4">
+                <div class="flex-1 text-center">                
+                    <x-primary-button name="action" value="shopping" class="flex-1">{{ __("Edit Selected Products") }}</x-primary-button>
+                </div>
+            </div>
+        </form>
+
     </div>
 </x-app-layout>
+
+<style>
+    .product-info {
+        border: 2px solid #ffffff;
+        border-radius: 0.5rem;
+    }
+    .product-checkbox:checked + .product-info {
+        border: 2px solid #003bee; /*Tailwind's blue-500*/
+        border-radius: 0.5rem; /* Same as Tailwind's rounded-lg */
+    }
+    .product-info:hover{
+        border-color: #a3a3a3;
+    }
+</style>
