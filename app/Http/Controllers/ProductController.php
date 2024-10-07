@@ -32,8 +32,7 @@ class ProductController extends Controller
         $units = Unit::all();
         return view('products.edit', compact('products', 'action', 'units'));
     }
-
-    // todo addorupdate implementation
+    
     public function addOrUpdateProducts(Request $request)
     {
         $action = $request->input('action');
