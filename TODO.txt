@@ -1,8 +1,8 @@
 @all
 
 
-storage edit products 
-shoppinglists if all products in shoppinlist are purchesed  => show as purchased
+
+
 
 
 
@@ -29,4 +29,6 @@ finished -- DB Storage - add unit name
 finished -- Products-EDIT: connect to database/in die shopping list oder in die storage list
 products - canvas is scrollable max 3-4 items
 half -- Single recepie site
+finished -- storage edit products 
+finished -- shoppinglists if all products in shoppinlist are purchesed  => show as purchased
 
