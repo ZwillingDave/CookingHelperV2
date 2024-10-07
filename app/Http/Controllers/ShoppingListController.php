@@ -19,8 +19,15 @@ class ShoppingListController extends Controller
     {
         $shoppinglists = ShoppingList::where('user_id', Auth::user()->id)->with(['shoppingListItems'])->orderBy('created_at', 'desc')->get();
         
+        foreach ($shoppinglists as $shoppinglist) {
+            $notAllPurchased = ShoppingListItem::where('shopping_list_id', $shoppinglist->id)->where('is_purchased', 0)->exists();
+            if ($notAllPurchased) {
+                $shoppinglist['notAllPurchased'] = $notAllPurchased;
+            }
+        }
+
         return view('shoppinglists.index', [
-            'shoppinglists' => $shoppinglists
+            'shoppinglists' => $shoppinglists,
         ]);
     }
 
@@ -42,7 +49,7 @@ class ShoppingListController extends Controller
     public function storeToStorage(Request $request)
     {
         $id = $request->id;
-        $selectedProductIds = $request->input('selected', []);
+        $selectedProducts = $request->input('selected', []);
         $products = $request->input('products', []);
         $validatedData = $request->validate([
                 'products.*.amount' => 'required|integer|min:1',
@@ -50,37 +57,37 @@ class ShoppingListController extends Controller
             ]);
         
         
-        foreach ($selectedProductIds as $productId) {
-            $product = Product::find($productId);
-            if(isset($products[$productId])){
-                $productData = $products[$productId];
-                $storageItem = StorageItem::where('user_id', Auth::user()->id)
-                    ->where('product_id', $productId)
-                    ->first();
-                $storageItemQty = $storageItem === null || $storageItem->quantity === null ? 0 : $storageItem->quantity;
-                $amount = (float)$productData['amount'] + $storageItemQty;
+        foreach ($selectedProducts as $selProductId) {
+            
+            $selProductData = $products[$selProductId];
+            $product = Product::find($selProductData['product_id']);
+            $storageItem = StorageItem::where('user_id', Auth::user()->id)
+                ->where('product_id', $selProductData['product_id'])
+                ->first();
+            $storageItemQty = $storageItem === null || $storageItem->quantity === null ? 0 : $storageItem->quantity;
+            $amount = (float)$selProductData['amount'] + $storageItemQty;
 
-
-                if ($product) {  
+            
+            
+            if ($product) {  
                 StorageItem::updateOrCreate([
-                    'product_id' => $productId,
+                    'product_id' => $selProductData['product_id'],
                     'user_id' => Auth::user()->id,
                 ], [
                     'product_name' => $product['name'],
                     'quantity' => $amount,
-                    'unit_id' => $productData['unit'],
+                    'unit_id' => $selProductData['unit'],
                     'updated_at' => now(),
                 ]);
                 ShoppingListItem::updateorCreate([
-                    'product_id' => $productId,
+                    'product_id' => $selProductData['product_id'],
                     'shopping_list_id' => $id,
                 ],[
                     'is_purchased' => 1,
                 ]);
                 
-            }
-                
-            }
+                return redirect(route('shoppinglists.show', $id));
+            }   
         }        
     }
 
