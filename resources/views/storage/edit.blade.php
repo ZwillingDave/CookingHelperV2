@@ -14,6 +14,7 @@
                     <div class=" bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div class="p-6 text-gray-900 relative flex items-center gap-6">
                             <span class="flex-1 font-medium text-center">{{ __($storageItem->product_name) }}</span>
+                            <input name="products[{{ $storageItem->id }}][product_id]" value="{{$storageItem->product_id}}" type="hidden" readonly>
                             <input class="flex-1 number-input" type="number"
                                 name="products[{{ $storageItem->id }}][amount]" value="{{ $storageItem->quantity }}" min="1" required>
                             <select class="flex-1" name="products[{{ $storageItem->id }}][unit]" id="">
