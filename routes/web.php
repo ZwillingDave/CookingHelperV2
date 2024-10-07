@@ -8,6 +8,7 @@ use App\Http\Controllers\ShoppingListController;
 use App\Http\Controllers\StorageItemController;
 use App\Models\Product;
 use App\Models\ShoppingListItem;
+use App\Models\StorageItem;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,7 +28,7 @@ route::get('/user', function () {
     return view('user');
 })->middleware(['auth'])->name('user');
 
-Route::resource('products', ProductController::class)->only(['index', 'review', 'edit', 'add-or-update'])->middleware(['auth','verified']);
+Route::resource('products', ProductController::class)->only(['index', 'review', 'add-or-update'])->middleware(['auth','verified']);
 Route::post('/products/review', [ProductController::class, 'reviewSelection'])->name('products.review')->middleware(['auth','verified']);
 Route::patch('/products/review', [ProductController::class, 'addOrUpdateProducts'])->name('products.add-or-update')->middleware(['auth','verified']);
 
@@ -40,7 +41,10 @@ Route::patch('/shoppinglists/{id}', [ShoppingListController::class, 'storeToStor
 
 Route::get('/recepies/{id}', [RecipeController::class, 'show'])->name('recepies.show');
 
-Route::get('/storage', [StorageItemController::class, 'index'])->name('storage.index')->middleware(['auth','verified']);
+Route::resource('storage', StorageItemController::class)->only(['index', 'edit'])->middleware(['auth','verified']);
+Route::post('/storage/review', [StorageItemController::class, 'editSelection'])->name('storage.review')->middleware(['auth','verified']);
+Route::patch('storage/review', [StorageItemController::class, 'update'])->name('storage.update')->middleware(['auth','verified']);
+
 
 
 require __DIR__.'/auth.php';
