@@ -17,7 +17,7 @@ Dashboard make it beautifull
 finished -- ShoppingList-List -> products add to storage
 finished -- ShoppingList-DB add purcased field
 finished -- ShoppingList-List -> purcased item is Gray
-Storage list - item at storage
+finished -- Storage list - item at storage
 finished -- DB Storage - add unit name
 
 
