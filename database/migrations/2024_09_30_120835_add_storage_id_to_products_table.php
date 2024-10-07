@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::table('products', function (Blueprint $table) {
             $table->unsignedBigInteger('storage_id')->nullable()->after('id'); // 'storage_id' als foreign key
-            $table->foreign('storage_id')->references('id')->on('storage')->onDelete('cascade');
+            $table->foreign('storage_id')->references('id')->on('storageitems')->onDelete('cascade');
         });
     }
 

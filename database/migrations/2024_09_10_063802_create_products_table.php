@@ -9,7 +9,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->id(); // Primärschlüssel
+            $table->unsignedBigInteger('id')->autoIncrement(); // Primärschlüssel
             $table->string('name'); // Name des Produkts
             $table->unsignedBigInteger('unit_id'); // Fremdschlüssel zu units
             $table->string('image')->nullable(); // Bild des Produkts, optional
