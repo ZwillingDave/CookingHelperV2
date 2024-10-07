@@ -18,6 +18,7 @@ class CreateRecipesTable extends Migration
         $table->string('name');
         $table->text('description')->nullable(); // Beschreibung des Rezepts
         $table->text('instruction'); // Zubereitungshinweise
+        $table->string('image')->nullable(); // Bild des Rezepts
         $table->timestamps(); // Erstellt created_at und updated_at
     });
 }
