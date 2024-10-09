@@ -1,6 +1,6 @@
 @all
 
-
+add recipe site(introduction textfield, description textfield, image searchfield, foreach ingredient add ingredientbtn -> select all products , input amount, select units)
 
 
 
