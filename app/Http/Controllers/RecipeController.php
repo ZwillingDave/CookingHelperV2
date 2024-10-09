@@ -35,6 +35,7 @@ class RecipeController extends Controller
         $ingredients = $request->input('ingredients');
         $currentShoppingList = ShoppingList::where('user_id', Auth::user()->id)->latest()->first();
         $createNewShoppingList = false;
+        $portions = $request->input('portions');
 
         if ($currentShoppingList) {
             $isAnyItemPurchased = ShoppingListItem::where('shopping_list_id', $currentShoppingList->id)
@@ -66,7 +67,7 @@ class RecipeController extends Controller
                 ->where('product_id', $ingredient['product_id'])
                 ->first();
                 $listItemQuantity = $listItem && $listItem->quantity ? $listItem->quantity : 0;
-                $amount = $ingredient['quantity'] + $listItemQuantity;
+                $amount = $ingredient['quantity'] * $portions + $listItemQuantity;
                 ShoppingListItem::updateOrCreate([
                     'shopping_list_id' => $currentShoppingList->id,
                     'product_id' => $ingredient['product_id'],
