@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
 use App\Models\Ingredient;
-
+use App\Models\Product;
+use App\Models\ShoppingList;
+use App\Models\ShoppingListItem;
+use Illuminate\Support\Facades\Auth;
 class RecipeController extends Controller
 {
     // Methode, um ein Rezept und seine Zutaten anzuzeigen
@@ -29,7 +32,54 @@ class RecipeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $ingredients = $request->input('ingredients');
+        $currentShoppingList = ShoppingList::where('user_id', Auth::user()->id)->latest()->first();
+        $createNewShoppingList = false;
+
+        if ($currentShoppingList) {
+            $isAnyItemPurchased = ShoppingListItem::where('shopping_list_id', $currentShoppingList->id)
+            ->where('is_purchased', true)
+            ->exists();
+            $isDifferentDate = $currentShoppingList->created_at->format('d.m.Y') !== now()->format('d.m.Y');
+
+            if ($isAnyItemPurchased || $isDifferentDate) {
+                $createNewShoppingList = true;
+            }
+        } else{
+            $createNewShoppingList = true;
+        }
+
+        if ($createNewShoppingList) {
+            $currentShoppingList = ShoppingList::create([
+                'user_id' => Auth::user()->id,
+                'created_at' => now(), 
+                'updated_at' => now(),
+            ]);
+        }
+
+
+        foreach ($ingredients as $ingredient) {
+            $product = Product::find($ingredient['product_id']);
+            if ($product) {
+
+                $listItem = ShoppingListItem::where('shopping_list_id', $currentShoppingList->id)
+                ->where('product_id', $ingredient['product_id'])
+                ->first();
+                $listItemQuantity = $listItem && $listItem->quantity ? $listItem->quantity : 0;
+                $amount = $ingredient['quantity'] + $listItemQuantity;
+                ShoppingListItem::updateOrCreate([
+                    'shopping_list_id' => $currentShoppingList->id,
+                    'product_id' => $ingredient['product_id'],
+                ], [
+                    'product_name' => $product['name'],
+                    'quantity' => $amount,
+                    'unit_id' => $ingredient['unit_id'],
+                    'updated_at' => now(),
+                ]);
+
+            }
+        }
+    return redirect(route('recipes.index'));
     }
 
     /**
