@@ -12,9 +12,9 @@
                 <div class="image flex justify-center align-middle mt-4">
                     {{-- <img class="p-4 recipe-image" src="/images/recipe-1.jpg"> --}}
                     @if($recipe->image)
-                    <img class="p-4 recipe-image" src="/images/recipes/{{ $recipe->image }}">
+                    <img class="recipe-image" src="/images/recipes/{{ $recipe->image }}">
                     @else
-                    <img class="p-4 recipe-image" src="/images/no-image.png">
+                    <img class="recipe-image" src="/images/no-image.png">
                     @endif
                 </div>
                 
@@ -124,9 +124,17 @@
     }
     .recipe-image {
         width: 80%;
-        /* aspect-ratio: 1/1; */
         align-self: center;
         object-fit: scale-down;
+        border-radius: 10px;
+    }
+    @media only screen and (max-width: 768px) {
+        .ingredients{
+            grid-column: span 2;
+        }
+        .image{
+            grid-column: span 2;
+        }
     }
     
 </style>
