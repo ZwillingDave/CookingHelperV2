@@ -8,22 +8,24 @@
     <div class="py-2 flex-grow">
         <form action="{{route('storage.review')}}" method="post">
             @csrf
+            <div class="productgrid">
             @foreach ($storageItems as $storageItem)
-                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-2">
+                <div class="max-w-7xl mx-auto py-2">
                     <label class="">
                         <input type="checkbox" name="products[]" value="{{ $storageItem->id }}" class="hidden product-checkbox">
                         <div class="product-info cursor-pointer bg-white overflow-hidden shadow-sm sm:rounded-lg">
                             <div class="p-6 text-gray-900 relative">
                                 @if ($storageItem->product->image)
-                                <img src="/images/products/{{ $storageItem->product->image }}" alt="">{{ __($storageItem->product_name) }}
+                                {{ __($storageItem->product_name) }}<img src="/images/products/{{ $storageItem->product->image }}" alt="">
                                 @else
-                                <img src="/images/no-image.png" alt="">{{ __($storageItem->product_name) }}
+                                {{ __($storageItem->product_name) }}<img src="/images/no-image.png" alt="">
                                 @endif
                             </div>
                         </div>
                     </label>
                 </div>
             @endforeach
+            </div>
             <div class="flex mt-4">
                 <div class="flex-1 text-center">                
                     <x-primary-button name="action" value="shopping" class="flex-1">{{ __("Edit Selected Products") }}</x-primary-button>
@@ -35,6 +37,10 @@
 </x-app-layout>
 
 <style>
+    .productgrid{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
+    }
     .product-info {
         border: 2px solid #ffffff;
         border-radius: 0.5rem;
