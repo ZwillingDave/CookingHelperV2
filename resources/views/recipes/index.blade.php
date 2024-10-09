@@ -6,21 +6,43 @@
     </x-slot>
 
     <div class="py-2 flex-grow">
+        <div class="recipegrid">
         @foreach ($recipes as $recipe)
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-2">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <x-dropdown-link :href="route('recipes.show', $recipe->id)">
                 <div class="p-6 text-gray-900">
                     @if ($recipe->image)
-                    <img src="/images/recipes/{{ $recipe->image }}" alt="">{{ __($recipe->name) }}
+                    {{ __($recipe->name) }}<div class="imgdiv"><img src="/images/recipes/{{ $recipe->image }}" alt=""></div>
                     @else
-                    <img src="/images/no-image.png" alt="">{{ __($recipe->name) }}
+                    {{ __($recipe->name) }}<div><img src="/images/no-image.png" alt=""></div>
                     @endif
                 </div>
                 </x-dropdown-link>
             </div>
         </div>
         @endforeach
+        </div>
     </div>
 </x-app-layout>
 
+<style>
+    .recipegrid{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
+        
+    }
+    .imgdiv{
+        height: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        
+    }
+    div img{
+        max-width: 200px;
+        object-fit: scale-down;
+        border-radius: 10px;
+        
+    }
+</style>
