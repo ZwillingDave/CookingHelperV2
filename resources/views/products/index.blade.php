@@ -8,22 +8,25 @@
     <div class="py-2 flex-grow">
         <form action="{{ route('products.review') }}" method="post">
             @csrf
+            <div class="productgrid">
             @foreach ($products as $product)
-                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-2">
+                <div class="max-w-7xl mx-auto py-2">
                     <label class="">
                         <input type="checkbox" name="products[]" value="{{ $product->id }}" class="hidden product-checkbox">
                         <div class="product-info cursor-pointer bg-white overflow-hidden shadow-sm sm:rounded-lg">
                             <div class="p-6 text-gray-900 relative">
                                 @if ($product->image)
-                                <img src="/images/products/{{ $product->image }}" alt="">{{ __($product->name) }}
+                                {{ __($product->name) }}<img src="/images/products/{{ $product->image }}" alt="">
                                 @else
-                                <img src="/images/no-image.png" alt="">{{ __($product->name) }}
+                                {{ __($product->name) }}<img src="/images/no-image.png" alt="">
                                 @endif
                             </div>
                         </div>
                     </label>
                 </div>
             @endforeach
+        </div>
+        
             
             <div class="flex mt-4">
                 <div class="flex-1 text-center">                
@@ -38,6 +41,10 @@
 </x-app-layout>
 
 <style>
+    .productgrid{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
+    }
     .product-info {
         border: 2px solid #ffffff;
         border-radius: 0.5rem;
