@@ -25,10 +25,10 @@ finished -- DB Storage - add unit name
 
 
 @dave
-
+finished -- more products shown in one row(Products and Storage)
 finished -- Products-EDIT: connect to database/in die shopping list oder in die storage list
 products - canvas is scrollable max 3-4 items
-half -- Single recepie site
+finished -- Single recepie site
 finished -- storage edit products 
 finished -- shoppinglists if all products in shoppinlist are purchesed  => show as purchased
 
