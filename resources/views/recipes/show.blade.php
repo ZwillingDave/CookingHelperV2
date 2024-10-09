@@ -1,3 +1,4 @@
+<script>let quantitys = [];</script>
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -23,14 +24,24 @@
                     <h1 class="upper text-2xl font-bold text-center mt-4">Ingredients<hr></h1>
                     <ul class="ingredient-list m-4">
                         @foreach ($ingredients as $ingredient)
-                            <li class="ms-4">{{ $ingredient->quantity }} {{ $ingredient->unit->abbr }} {{ $ingredient->product->name }}</li>
+                            <li class="ms-4"><span class="ingredient-quantity">{{ $ingredient->quantity }}</span> <span>{{ $ingredient->unit->abbr }}</span> <span>{{ $ingredient->product->name }}</span></li>
                             <input type="hidden" name="ingredients[{{$ingredient->id}}][product_id]" value="{{ $ingredient->product_id }}">
                             <input type="hidden" name="ingredients[{{$ingredient->id}}][quantity]" value="{{ $ingredient->quantity }}">
                             <input type="hidden" name="ingredients[{{$ingredient->id}}][unit_id]" value="{{ $ingredient->unit_id }}">
+                            <script>quantitys.push({{ $ingredient->quantity }});console.log(quantitys);</script>
                         @endforeach                  
                     </ul>
-                    
-                    <x-primary-button class="button justify-center mt-4">{{ __("Add to ShoppingList") }}</x-primary-button>
+                    <div class="submitbox flex justify-center mt-4">
+                        <x-primary-button class="button justify-center ms-2 me-2">{{ __("Add to ShoppingList") }}</x-primary-button>
+                        <div class="flex portions ms-2 me-2 flex-col justify-center">
+                            <span class="text-sm">Portions</span>
+                            <select name="portions" id="portions">
+                                @for ($amount = 1; $amount <= 10; $amount++)
+                                    <option value="{{$amount}}">{{$amount}}</option>
+                                @endfor
+                            </select>
+                        </div>
+                    </div>
                 </form>
                     
                 @if ($recipe->description)
@@ -51,6 +62,22 @@
     </div>
 </x-app-layout>
 
+<script>
+
+    let portions = document.getElementById("portions");
+    const ingredientQuantitys = document.querySelectorAll(".ingredient-quantity");
+
+    portions.addEventListener("change", function() {
+        let portionValue = portions.options[portions.selectedIndex].value;
+        ingredientQuantitys.forEach((element, index) => {
+            element.textContent = quantitys[index] * portionValue;
+        });
+
+    });
+
+
+</script>
+
 <style>
     hr{
         border: none;
@@ -60,10 +87,20 @@
         margin: auto;
         
     }
-    .button{
+    .submitbox{
         width: 90%;
         margin: auto;
         flex: 2;
+    }
+    .button{
+        flex: 3;
+    }
+    .portions{
+        flex: 2;
+
+    }
+    .portions select{
+        border-radius: 5px;
     }
     .upper{
         flex:2;
