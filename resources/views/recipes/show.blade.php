@@ -16,15 +16,23 @@
                     <img class="p-4 recipe-image" src="/images/no-image.png">
                     @endif
                 </div>
-                <div class="ingredients">
-                    <h1 class="text-2xl font-bold text-center mt-4">Ingredients</h1>
-                    <hr>
-                    <ul class="ingredient-list mt-4">
+                
+                <form class="ingredients flex flex-col" action="{{route('recipes.store', ['id' => $recipe->id])}}" method="post">
+                    @csrf
+                    @method("patch")
+                    <h1 class="upper text-2xl font-bold text-center mt-4">Ingredients<hr></h1>
+                    <ul class="ingredient-list m-4">
                         @foreach ($ingredients as $ingredient)
-                            <li class="ms-4">{{ $ingredient->product->name }}</li>
+                            <li class="ms-4">{{ $ingredient->quantity }} {{ $ingredient->unit->abbr }} {{ $ingredient->product->name }}</li>
+                            <input type="hidden" name="ingredients[{{$ingredient->id}}][product_id]" value="{{ $ingredient->product_id }}">
+                            <input type="hidden" name="ingredients[{{$ingredient->id}}][quantity]" value="{{ $ingredient->quantity }}">
+                            <input type="hidden" name="ingredients[{{$ingredient->id}}][unit_id]" value="{{ $ingredient->unit_id }}">
                         @endforeach                  
                     </ul>
-                </div>
+                    
+                    <x-primary-button class="button justify-center mt-4">{{ __("Add to ShoppingList") }}</x-primary-button>
+                </form>
+                    
                 @if ($recipe->description)
                 <div class="description">{{$recipe->description}}</div>
                 @endif
@@ -52,7 +60,14 @@
         margin: auto;
         
     }
-    
+    .button{
+        width: 90%;
+        margin: auto;
+        flex: 2;
+    }
+    .upper{
+        flex:2;
+    }
     .description {
         grid-column: span 2;
     }
@@ -63,6 +78,7 @@
         list-style-type: disc;
         width: 90%;
         margin: 16px auto;
+        flex: 12;
     }
     .instruction-list{
         width: 90%;
@@ -71,8 +87,8 @@
     }
     .recipe-image {
         width: 80%;
-        aspect-ratio: 1/1;
-        align-self: center
+        /* aspect-ratio: 1/1; */
+        align-self: center;
         object-fit: scale-down;
     }
     
