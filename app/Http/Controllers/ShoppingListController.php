@@ -77,6 +77,7 @@ class ShoppingListController extends Controller
                     'product_name' => $product['name'],
                     'quantity' => $amount,
                     'unit_id' => $selProductData['unit'],
+                    'image' => $product['image'],
                     'updated_at' => now(),
                 ]);
                 ShoppingListItem::updateorCreate([

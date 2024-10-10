@@ -143,6 +143,7 @@ class ProductController extends Controller
                 'product_name' => $product['name'],
                 'quantity' => $amount,
                 'unit_id' => $productData['unit'],
+                'image' => $product['image'],
                 'updated_at' => now(),
                 ]);
             }               
