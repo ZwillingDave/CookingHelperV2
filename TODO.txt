@@ -3,6 +3,10 @@
 add recipe site(introduction textfield, description textfield, image searchfield, foreach ingredient add ingredientbtn -> select all products , input amount, select units)
 on dashboard should only show the recipes what u can cook with your products in the storage
 searchfield for products, recipes, storage
+edit selected products - selected unit should be the most common unit for the product
+DB - table allowed units per product
+recipes mark it as favourite recipe
+delete recipe
 
 
 
