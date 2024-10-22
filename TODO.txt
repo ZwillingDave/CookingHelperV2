@@ -1,6 +1,5 @@
 @all
 
-add recipe site(introduction textfield, description textfield, image searchfield, foreach ingredient add ingredientbtn -> select all products , input amount, select units)
 on dashboard should only show the recipes what u can cook with your products in the storage
 searchfield for products, recipes, storage
 edit selected products - selected unit should be the most common unit for the product
@@ -36,4 +35,5 @@ products - canvas is scrollable max 3-4 items
 finished -- Single recepie site
 finished -- storage edit products 
 finished -- shoppinglists if all products in shoppinlist are purchesed  => show as purchased
+finished -- add recipe site(introduction textfield, description textfield, image fileinput, foreach ingredient add ingredientbtn -> select all products , input amount, select units)
 
