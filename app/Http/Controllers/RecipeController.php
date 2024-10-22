@@ -6,6 +6,7 @@ use App\Models\Recipe;
 use Illuminate\Http\Request;
 use App\Models\Ingredient;
 use App\Models\Product;
+use App\Models\Unit;
 use App\Models\ShoppingList;
 use App\Models\ShoppingListItem;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +25,10 @@ class RecipeController extends Controller
      */
     public function create()
     {
-        //
+        return view('recipes.create', [
+            'products' => Product::all(),
+            'units' => Unit::all(),
+        ]);
     }
 
     /**
@@ -91,7 +95,7 @@ class RecipeController extends Controller
         $ingredients = Ingredient::where('recipe_id', $recipe->id)->with('product')->with('unit')->get();
         $instruction = $recipe->instruction;
         $steps = explode(";", $instruction);
-        
+
         return view('recipes.show', [
             'recipe' => $recipe,
             'ingredients' => $ingredients,
@@ -105,7 +109,43 @@ class RecipeController extends Controller
      */
     public function edit(Recipe $recipe)
     {
-        //
+        return view('recipes.edit', [
+            
+        ]);
+    }
+
+    public function add(Request $request)
+    {
+        $recipe = $request->input();
+        $image = $request->file(['image']);
+        $imageName = null;
+        
+        if ($image) {
+            $imageName = time().'.'.$image->extension();
+            $image->move(public_path('images/recipes'), $imageName);
+        }
+
+        $instruction = implode(";", $recipe['instructions']);
+        $ingredients = $recipe['ingredients'];
+      
+        Recipe::updateOrCreate([
+            'name' => $recipe['name'],
+            'description' => $recipe['description'],
+            'image' => $imageName,
+            'instruction' => $instruction,
+        ]);
+        if($ingredients){
+            $lastAddedRecipeId = Recipe::latest()->first()->id;
+            foreach ($ingredients as $ingredient) {
+                Ingredient::updateOrCreate([
+                    'recipe_id' => $lastAddedRecipeId,
+                    'product_id' => $ingredient['product_id'],
+                    'quantity' => $ingredient['amount'],
+                    'unit_id' => $ingredient['unit_id'],
+                ]);  
+            }
+        }
+        return redirect(route('recipes.index'));
     }
 
     /**
