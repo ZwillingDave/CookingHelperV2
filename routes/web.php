@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShoppingListController;
 use App\Http\Controllers\StorageItemController;
 use App\Models\Product;
+use App\Models\Recipe;
 use App\Models\ShoppingListItem;
 use App\Models\StorageItem;
 
@@ -32,9 +33,12 @@ Route::resource('products', ProductController::class)->only(['index', 'review', 
 Route::post('/products/review', [ProductController::class, 'reviewSelection'])->name('products.review')->middleware(['auth','verified']);
 Route::patch('/products/review', [ProductController::class, 'addOrUpdateProducts'])->name('products.add-or-update')->middleware(['auth','verified']);
 
-Route::resource('recipes', RecipeController::class)->only(['index', 'show'])->middleware(['auth','verified']);
+Route::resource('recipes', RecipeController::class)->only(['index', 'show', 'create', 'add'])->middleware(['auth','verified']);
 Route::get('/recipes/{id}', [RecipeController::class, 'show'])->name('recipes.show') ->middleware(['auth','verified']);
 Route::patch('/recipes/{id}', [RecipeController::class, 'store'])->name('recipes.store')->middleware(['auth','verified']);
+// Route::get('/recipes/create', [RecipeController::class, 'create'])->name('recipes.create')->middleware(['auth','verified']);
+Route::post('/recipes/create', [RecipeController::class, 'add'])->name('recipes.add')->middleware(['auth','verified']);
+
 
 Route::resource('shoppinglists', ShoppingListController::class)->only(['index', 'show', 'add-or-update'])->middleware(['auth','verified']);
 Route::get('/shoppinglists/{id}', [ShoppingListController::class, 'show'])->middleware(['auth','verified']);
